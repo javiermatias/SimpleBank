@@ -1,0 +1,1 @@
+funcion loadFixture --> se puede hacer con un beforeeach?

@@ -6,13 +6,16 @@ async function main() {
   //const unlockTime = currentTimestampInSeconds + ONE_YEAR_IN_SECS;
 
   //const lockedAmount = ethers.utils.parseEther("1");
-
+  const [owner, otherAccount] = await ethers.getSigners();
   const Bank = await ethers.getContractFactory("SimpleBank");
-  const bank = await Bank.deploy(/* unlockTime, { value: lockedAmount } */);
+  const bank = await Bank.deploy();
 
   await bank.deployed();
 
   console.log("Simple Bank deployed to:", bank.address);
+
+  let message =await bank.connect(otherAccount).callStatic.enroll();
+  console.log("Message enrolled",message );
 }
 
 // We recommend this pattern to be able to use async/await everywhere
