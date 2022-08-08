@@ -24,16 +24,17 @@ contract SimpleBank {
     //
 
     /* Add an argument for this event, an accountAddress */
-    event LogEnrolled();
+    event LogEnrolled(address accountAddress);
 
     /* Add 2 arguments for this event, an accountAddress and an amount */
-    event LogDepositMade();
+    event LogDepositMade(address accountAddress, uint256 amount);
 
     /* Create an event that logs Withdrawals 
     It should log 3 arguments: 
     the account address, the amount withdrawn, and the new balance. */
     // event 
 
+    event Withdrawal(address accountAddress, uint256 amount, uint256 newBalance);
 
 
     //
@@ -45,22 +46,60 @@ contract SimpleBank {
         owner = msg.sender;
     }
 
+     modifier isEnrolled() {
+        require(enrolled[msg.sender], "User is not enrolled");
+        _;
+    }
+
      /// @notice Enroll a customer with the bank
     /// @return The users enrolled status
     // Emit the appropriate event
     function enroll() public returns  (bool) {
         
-        require(!enrolled[msg.sender], "User already enrolled");
-        
+        require(!enrolled[msg.sender], "User already enrolled");        
         enrolled[msg.sender] = true;
-        
-        return true;
-        // ...
-        // 
-        // 
+        emit LogEnrolled(msg.sender);   
+        return true;    
+     
     }
 
+    /// @notice Deposit ether into bank
+    /// @return The balance of the user after the deposit is made
+    // This function can receive ether
+    // Users should be enrolled before they can make deposits
+    function deposit() public payable isEnrolled returns (uint){    
+        
+        uint value = msg.value;
+        require(value > 0, "You have to deposit more than 0");        
+        balances[msg.sender] += value;
+        emit LogDepositMade(msg.sender, value);
+        return value;
+
+    }
+
+     /// @notice Get balance
+    /// @return The balance of the user
+    function getBalance() public isEnrolled view returns(uint)  {
+
+        return balances[msg.sender];
+    }
+
+    /// @notice Withdraw ether from bank
+    /// @param withdrawAmount amount you want to withdraw
+    /// @return The balance remaining for the user
+    // Emit the appropriate event
+   function withdraw(uint withdrawAmount) public payable isEnrolled returns (uint) {
+        
+        require(balances[msg.sender] >= withdrawAmount, "You don't have enough balance");
+        balances[msg.sender] -= withdrawAmount;
+        (bool success, ) = msg.sender.call{value: withdrawAmount}("");
+        require(success, "Failed to send Ether");
+        emit Withdrawal(msg.sender, withdrawAmount, balances[msg.sender]);
+        return balances[msg.sender];
+    }
     
+
+   
   
 
 

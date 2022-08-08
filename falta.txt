@@ -2,32 +2,10 @@
     receive() external payable {}
 
 
-    /// @notice Get balance
-    /// @return The balance of the user
-    function getBalance()  {
-        /* Get the balance of the sender of this transaction */
-        // return ... ;
-    }
 
-    /// @notice Enroll a customer with the bank
-    /// @return The users enrolled status
-    // Emit the appropriate event
-    function enroll() public returns (bool) {
-        require(!enrolled[msg.sender], "User already enrolled");
-        // ...
-        // 
-        // 
-    }
+ 
 
-    /// @notice Deposit ether into bank
-    /// @return The balance of the user after the deposit is made
-    // This function can receive ether
-    // Users should be enrolled before they can make deposits
-    function deposit() public returns (uint) {
-        // ...
-        // 
-        // 
-    }
+    
 
     /// @notice Withdraw ether from bank
     /// @param withdrawAmount amount you want to withdraw

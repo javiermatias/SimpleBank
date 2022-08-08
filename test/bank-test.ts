@@ -22,6 +22,14 @@ describe("Bank", function () {
 
              
         });
+
+     /*    it("Make a deposit and check if the balance is correct", async function () {
+            const { bank, otherAccount } = await loadFixture(deployFixture);     
+             
+            await expect(await bank.connect(otherAccount).callStatic.enroll()).to.be.true;
+
+             
+        }); */
     
     
      });

@@ -15,7 +15,9 @@ async function main() {
   console.log("Simple Bank deployed to:", bank.address);
 
   let message =await bank.connect(otherAccount).callStatic.enroll();
+  //let amountDeposit = await bank.connect(otherAccount).callStatic.deposit({value: 3});
   console.log("Message enrolled",message );
+  //console.log("amountDeposit",amountDeposit );
 }
 
 // We recommend this pattern to be able to use async/await everywhere
