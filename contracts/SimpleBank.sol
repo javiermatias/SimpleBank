@@ -3,8 +3,9 @@ pragma solidity 0.8.9;
 
 // Import this file to use console.log
 import "hardhat/console.sol";
+import "@openzeppelin/contracts/security/ReentrancyGuard.sol";
 
-contract SimpleBank {
+contract SimpleBank is ReentrancyGuard {
     //
     // State variables
     //
@@ -41,6 +42,10 @@ contract SimpleBank {
     // Functions
     //
 
+     receive() external payable {
+        deposit();
+    }
+
     constructor() {
         /* Set the owner to the creator of this contract */
         owner = msg.sender;
@@ -61,6 +66,10 @@ contract SimpleBank {
         emit LogEnrolled(msg.sender);   
         return true;    
      
+    }
+
+    function getEnroll(address accountAddress) public view returns(bool) {       
+        return enrolled[accountAddress];    
     }
 
     /// @notice Deposit ether into bank
@@ -98,6 +107,14 @@ contract SimpleBank {
         return balances[msg.sender];
     }
     
+
+      /// @notice Withdraw remaining ether from bank
+    /// @return bool transaction success
+    // Emit the appropriate event
+    function withdrawAll() public returns (bool) {        
+        withdraw(balances[msg.sender]);
+        return true;
+    }
 
    
   

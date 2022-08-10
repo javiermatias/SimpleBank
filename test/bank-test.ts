@@ -1,8 +1,12 @@
 import { ethers } from "hardhat";
 import { loadFixture } from "@nomicfoundation/hardhat-network-helpers";
 import { expect } from "chai";
-describe("Bank", function () {
-    
+
+
+describe("Bank", function () {    
+    const ONE_ETHER = ethers.utils.parseEther("1");
+    const HALF_ETHER = ethers.utils.parseEther("0.5");
+   
     async function deployFixture() {
         
         const [owner, otherAccount] = await ethers.getSigners();
@@ -16,22 +20,55 @@ describe("Bank", function () {
     describe("Tests", function() {
         
         it("Should Enroll user and check if its correctly mark enrolled", async function () {
-            const { bank, otherAccount } = await loadFixture(deployFixture);     
-          
-            await expect(await bank.connect(otherAccount).callStatic.enroll()).to.be.true;
-
-             
+            const { bank, otherAccount } = await loadFixture(deployFixture);
+           
+            await bank.connect(otherAccount).enroll();
+           
+            expect(await bank.getEnroll(otherAccount.getAddress())).to.be.true;
         });
 
-     /*    it("Make a deposit and check if the balance is correct", async function () {
-            const { bank, otherAccount } = await loadFixture(deployFixture);     
-             
-            await expect(await bank.connect(otherAccount).callStatic.enroll()).to.be.true;
+        it("Make a deposit and check if the balance is correct", async function () {            
+            const { bank } = await loadFixture(deployFixture);   
+            
+            await bank.enroll();
+            
+            await bank.deposit({value: ONE_ETHER});
 
-             
-        }); */
+            expect(await bank.getBalance()).to.be.equal(ONE_ETHER);
+        });
+
+        it("Only a enrolled user can make a deposit", async function () {
+            const { bank } = await loadFixture(deployFixture);
+            
+            await expect(bank.deposit()).to.be.revertedWith("User is not enrolled");
+        });
+
+        it("Withdraw a correct amount", async function () {
+            const { bank } = await loadFixture(deployFixture);
+
+            await bank.enroll();
+           
+            await bank.deposit({value: ONE_ETHER});
+            
+            await bank.withdraw(HALF_ETHER);
+
+            expect(await bank.getBalance()).to.be.equal(HALF_ETHER);
+        });
+
+        it("Not be able to withdraw more than has been deposited", async function () {
+            const { bank } = await loadFixture(deployFixture);
+
+            await bank.enroll();
+           
+            await bank.deposit({value: ONE_ETHER});
+            
+            await bank.withdraw(HALF_ETHER);
+
+            expect(await bank.getBalance()).to.be.equal(HALF_ETHER);
+        });
+
     
-    
+        //Not be able to withdraw more than has been deposited
      });
     
 
