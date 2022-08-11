@@ -1,3 +1,6 @@
+## Contract is deploy and verify in the Rinkeby test network 
+https://rinkeby.etherscan.io/address/0x8DD130Cd016d322555f96C10861ed4d79A916337
+
 # Simple Bank Exercise
 
 In this exercise you are going to implement the SimpleBank.sol contract.
