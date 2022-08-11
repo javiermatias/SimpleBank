@@ -10,7 +10,13 @@ const config: HardhatUserConfig = {
     token: 'ETH',
     gasPriceApi: 'https://api.bscscan.com/api?module=proxy&action=eth_gasPrice',
     showTimeSpent: true,
-  }
+  },
+  networks: {
+    rinkeby: {
+      url: process.env.STAGING_QUICKNODE_KEY,
+      accounts: [process.env.PRIVATE_KEY]
+    },
+  },
 };
 
 export default config;
