@@ -1,0 +1,48 @@
+.button {
+  background-color: #4CAF50; /* Green */
+  border: none;
+  color: white;
+  padding: 20px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 12px;
+  margin: 4px 2px;
+  cursor: pointer;
+  border-radius: 12px;
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+
+.address {
+  position: absolute;
+  top: 0;
+  right: 0;
+  color: grey;
+  font-size: 15px;
+}
+.card {
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.3);
+  max-width: 400px;
+  margin: auto;
+  text-align: center;
+  font-family: arial;
+  padding: 8px;
+
+}
+
+.balance {
+  color: grey;
+  font-size: 22px;
+}
+.account {
+  color: grey;
+  font-size: 15px;
+}
+
+.title{
+  padding: 20px;
+  text-align:center;
+}
+
