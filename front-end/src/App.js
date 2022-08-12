@@ -5,6 +5,9 @@ import React, { useEffect, useState } from "react";
 import { ethers } from "ethers";
 import contract from "./contract/SimpleBankAbi.json";
 import CheckWallet from './checkWalletConnect/check-wallet';
+import ButtonEnroll from './btnEnroll/button-enroll';
+import Spinner from './spinner/spinner';
+
 function App() {
 
   const [currentAccount, setCurrentAccount] = useState("");
@@ -13,7 +16,7 @@ function App() {
   const contractAddress = "0x8DD130Cd016d322555f96C10861ed4d79A916337";
   const contractABI = contract.abi;
 
- 
+
 
   const getBalance = async () => {
     try {
@@ -55,13 +58,24 @@ function App() {
         <h1>My Balance</h1>
         <p className="balance">$0.00</p>
         {!currentAccount && (<p className="account">Connect your wallet</p>)}
-        {(!isEnroll && currentAccount ) && (<p className="account">Please enroll to start</p>)}
-        {!isEnroll
-        ? <button>Enroll</button>
-        : <><button>Deposit</button> <button>Withdraw</button> <button>WithdrawAll</button></>
-        }
-        
+        {(!isEnroll && currentAccount) && (<p className="account">Please enroll to start</p>)}
+
+        {function () {
+          if (currentAccount && !isEnroll) {
+            return <ButtonEnroll stateEnroll={setIsEnroll}></ButtonEnroll>;
+          } else if (isEnroll) {
+
+            return <>
+              <button>Deposit</button>
+              <button>Withdraw</button>
+              <button>WithdrawAll</button>
+            </>
+          }
+        }()}
        
+
+
+
       </div>
     </div>
   );

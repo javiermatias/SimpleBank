@@ -21,6 +21,7 @@
   right: 0;
   color: grey;
   font-size: 15px;
+  padding-right: 20px;
 }
 .card {
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.3);
@@ -46,3 +47,27 @@
   text-align:center;
 }
 
+.loader {
+  border: 10px solid #f3f3f3;
+  border-top: 10px solid #3498db;
+  border-radius: 50%;
+  width: 80px;
+  height: 80px;
+  animation: spin 1s linear infinite;
+  text-align: center;
+  margin:auto;
+  left:0;
+  right:0;
+  top:0;
+  bottom:0;
+  position:fixed;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+} 
