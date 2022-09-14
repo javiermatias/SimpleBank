@@ -13,6 +13,14 @@ const config: HardhatUserConfig = {
       url: process.env.STAGING_QUICKNODE_KEY,
       accounts: [process.env.PRIVATE_KEY as string]
     },
+    goerli: {
+      url: process.env.STAGING_ALCHEMY_KEY,
+      accounts: [process.env.PRIVATE_KEY as string]
+    },
+    mumbai: {
+      url: process.env.MUMBAI_QUICKNODE_KEY,
+      accounts: [process.env.PRIVATE_KEY as string]
+    }
   },
   etherscan: {
     // Your API key for Etherscan

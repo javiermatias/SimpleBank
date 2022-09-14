@@ -11,7 +11,10 @@ contract SimpleBank is ReentrancyGuard {
     //
 
     /* We want to protect our users balance from other contracts */
-    mapping(address => uint) private balances;
+    mapping(address => uint) private balances; //18 decimales
+
+    //0x343  0.00015 eth -- 15000000 wei
+    //0x3423
 
     /* We want to create a getter function and allow 
     contracts to be able to see if a user is enrolled.  */

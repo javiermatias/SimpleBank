@@ -44,12 +44,14 @@ function App() {
 
     <div className="App">
 
-      <CheckWallet stateChanger={setCurrentAccount} stateEnroll={setIsEnroll} > </CheckWallet>
-      {!currentAccount
+      
+     {/*  {!currentAccount
         ? <ButtonWallet name="Connect Wallet" stateChanger={setCurrentAccount}></ButtonWallet>
         : <p className="address"> {currentAccount} </p>
-      }
-
+      } */}
+      <ButtonWallet name="Connect Wallet" stateChanger={setCurrentAccount} account={currentAccount}></ButtonWallet>
+        <p className="address"> {currentAccount} </p>
+        <CheckWallet stateChanger={setCurrentAccount} stateEnroll={setIsEnroll} > </CheckWallet>
 
       <h2 className="title">Simple Bank</h2>
 

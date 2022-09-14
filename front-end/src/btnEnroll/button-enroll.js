@@ -57,8 +57,9 @@ export default function ButtonEnroll({ stateEnroll }) {
                 ? <button onClick={enroll}>Enroll</button>
                 :
                 <>
+                   <p>Waiting for confirmation...</p>
                     <Spinner></Spinner>
-                    <p>Waiting for confirmation...</p>
+                    
                 </>
             }
         </div>

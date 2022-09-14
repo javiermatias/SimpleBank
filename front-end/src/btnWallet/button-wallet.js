@@ -1,6 +1,9 @@
-function ButtonWallet({ name, stateChanger }) {
- 
+import {useState } from "react";
+
+function ButtonWallet({ name, stateChanger, account }) {
+  const [connect, setConnect] = useState(false);
   const connectWallet = async () => {
+    
     try {
       const { ethereum } = window;
 
@@ -12,7 +15,7 @@ function ButtonWallet({ name, stateChanger }) {
       try {
         await ethereum.request({
           method: 'wallet_switchEthereumChain',
-          params: [{ chainId: '0x4' }],
+          params: [{ chainId: '0x4' }], //0x1 etherum mainet, 0x2 goerli, 0x4 etherum Rinkbey
         });
       } catch {
         // We have to add the chain
@@ -28,14 +31,31 @@ function ButtonWallet({ name, stateChanger }) {
     }
   }
 
+  if(!account){
+
+    return (
+   
+      <div>
+        <button className="button" onClick={connectWallet}>{name}</button>
+      </div>
+    );
+  }
 
 
+/*     return (
+   
+      <div>
+        <button className="button" onClick={connectWallet}>Disconnect</button>
+      </div>
+    ); */
 
-  return (
-    <div>
-      <button className="button" onClick={connectWallet}>{name}</button>
-    </div>
-  );
+/*   }else{
+    
+
+  }
+ */
+    
+  
 }
 
 export default ButtonWallet;
