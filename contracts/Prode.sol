@@ -5,7 +5,7 @@ import "@openzeppelin/contracts/security/ReentrancyGuard.sol";
 
 contract Prode is ReentrancyGuard {
     //List of users
-    address[] private users;
+    uint countUsers;
 
     struct User {
         bool enter;
@@ -35,7 +35,7 @@ contract Prode is ReentrancyGuard {
      Know how many participants are in the game
     */
     function getTotalUsers() public view returns (uint) {
-        return users.length;
+        return countUsers;
     }
 
     function deposit() public payable {
@@ -44,6 +44,7 @@ contract Prode is ReentrancyGuard {
         mapUser[msg.sender].enter = true;
         transfer(owner, 2.5 ether);
         transfer(governance, 2.5 ether);
+        countUsers++;
         emit Deposit(msg.sender);
     }
 

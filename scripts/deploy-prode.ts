@@ -4,11 +4,11 @@ async function main() {
 
   const [owner] = await ethers.getSigners();
   console.log("Deploying contracts with account: ", owner.address);
-  const Bank = await ethers.getContractFactory("Prode");
-  const bank = await Bank.deploy("0x6629CE0e3B3C60cD9037AE891bACB0A8F39447CE");
-  await bank.deployed();
-  console.log("Simple Bank deployed to:", bank.address);
-
+  const Prode = await ethers.getContractFactory("SimpleBank");
+  const prode = await Prode.deploy();
+  await prode.deployed();
+  console.log("Prode deployed to:", prode.address);
+  //npx hardhat run scripts/deploy.js --network localhost
 }
 
 // We recommend this pattern to be able to use async/await everywhere
