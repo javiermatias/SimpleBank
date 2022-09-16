@@ -4,7 +4,7 @@ import { ethers } from "hardhat";
 
 
 describe("Prode", function () {
-    const ONE_HUNDRED = ethers.utils.parseEther("1005");
+    const ONE_HUNDRED = ethers.utils.parseEther("10005");
     const TWENTY_MATIC = ethers.utils.parseEther("20");
     const TWENTY_FIVE_MATIC = ethers.utils.parseEther("25");
     const FEE = ethers.utils.parseEther("2.5");
@@ -41,6 +41,11 @@ describe("Prode", function () {
           const {prodeFarm,player1} = await loadFixture(deployProdeFarm);
           await expect(prodeFarm.connect(player1).deposit({from: player1.address, value: TWENTY_MATIC})).to.be.revertedWith('To enter the minimum is 25');
         });
+        it("Should revert if user want to enter again", async function () {
+            const {prodeFarm,player1} = await loadFixture(deployProdeFarm);
+            await prodeFarm.connect(player1).deposit({from: player1.address, value:TWENTY_FIVE_MATIC});
+            await expect(prodeFarm.connect(player1).deposit({from: player1.address, value: TWENTY_FIVE_MATIC})).to.be.revertedWith('You have been enrolled');
+          });
         it("Should Balance have to be update", async function () {
             const {prodeFarm,player1} = await loadFixture(deployProdeFarm);
             await prodeFarm.connect(player1).deposit({from: player1.address, value:TWENTY_FIVE_MATIC});
@@ -48,12 +53,15 @@ describe("Prode", function () {
           });
       
           it("Should send FEEs", async function () {
-            const {prodeFarm, player1,player2,owner, governance} = await loadFixture(deployProdeFarm);
+            const {prodeFarm,owner, player1,player2,governance} = await loadFixture(deployProdeFarm);
             await prodeFarm.connect(player1).deposit({from: player1.address, value: TWENTY_FIVE_MATIC});
             await prodeFarm.connect(player2).deposit({from: player2.address, value: TWENTY_FIVE_MATIC});
             const balanceGovernance = await prodeFarm.provider.getBalance(governance.address);
-      
-           
+            const player1Balance = await prodeFarm.provider.getBalance(player1.address);
+            const ownerBalance = await prodeFarm.provider.getBalance(owner.address);
+             console.log(balanceGovernance);
+             console.log(player1Balance);
+             console.log(ownerBalance);
             expect(balanceGovernance).to.be.equal(ONE_HUNDRED);
           });
       })
