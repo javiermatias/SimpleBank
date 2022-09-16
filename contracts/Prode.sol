@@ -7,7 +7,7 @@ contract Prode is ReentrancyGuard {
     //List of users
     uint countUsers;
     uint constant entrance = 25 ether;
-    uint constant fee = 5 ether;
+    uint constant fee = 2.5 ether;
 
     //
     struct User {

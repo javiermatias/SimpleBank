@@ -4,6 +4,7 @@ import { ethers } from "hardhat";
 
 
 describe("Prode", function () {
+    const ONE_HUNDRED = ethers.utils.parseEther("1005");
     const TWENTY_MATIC = ethers.utils.parseEther("20");
     const TWENTY_FIVE_MATIC = ethers.utils.parseEther("25");
     const FEE = ethers.utils.parseEther("2.5");
@@ -42,11 +43,20 @@ describe("Prode", function () {
         });
         it("Should Balance have to be update", async function () {
             const {prodeFarm,player1} = await loadFixture(deployProdeFarm);
-            await prodeFarm.connect(player1).deposit({from: player1.address, value: TWENTY_FIVE_MATIC});
-            expect(await prodeFarm.getBalance()).to.be.equal(TWENTY_FIVE_MATIC);
+            await prodeFarm.connect(player1).deposit({from: player1.address, value:TWENTY_FIVE_MATIC});
+            expect(await prodeFarm.getBalance()).to.be.equal(TWENTY_MATIC);
           });
       
-      });
+          it("Should send FEEs", async function () {
+            const {prodeFarm, player1,player2,owner, governance} = await loadFixture(deployProdeFarm);
+            await prodeFarm.connect(player1).deposit({from: player1.address, value: TWENTY_FIVE_MATIC});
+            await prodeFarm.connect(player2).deposit({from: player2.address, value: TWENTY_FIVE_MATIC});
+            const balanceGovernance = await prodeFarm.provider.getBalance(governance.address);
+      
+           
+            expect(balanceGovernance).to.be.equal(ONE_HUNDRED);
+          });
+      })
   
    /*  describe("Deployment", function () {
       it("Should deploy the contract", async function () {
