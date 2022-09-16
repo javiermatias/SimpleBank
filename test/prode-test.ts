@@ -5,6 +5,8 @@ import { ethers } from "hardhat";
 
 describe("Prode", function () {
     const TWENTY_MATIC = ethers.utils.parseEther("20");
+    const TWENTY_FIVE_MATIC = ethers.utils.parseEther("25");
+    const FEE = ethers.utils.parseEther("2.5");
     /* const ONE_LPTOKEN = ethers.utils.parseEther("1.0");
     const HALF_LPTOKEN = ethers.utils.parseEther("0.5");
     const TEN_LPTOKEN = ethers.utils.parseEther("10");
@@ -36,9 +38,13 @@ describe("Prode", function () {
     describe("Deposit", function () {
         it("Should revert if user deposit less than amount", async function () {
           const {prodeFarm,player1} = await loadFixture(deployProdeFarm);
-          await expect(prodeFarm.deposit({from: player1.address, value: TWENTY_MATIC})).to.be.revertedWith('To enter the minimum is 25');
-          
+          await expect(prodeFarm.connect(player1).deposit({from: player1.address, value: TWENTY_MATIC})).to.be.revertedWith('To enter the minimum is 25');
         });
+        it("Should Balance have to be update", async function () {
+            const {prodeFarm,player1} = await loadFixture(deployProdeFarm);
+            await prodeFarm.connect(player1).deposit({from: player1.address, value: TWENTY_FIVE_MATIC});
+            expect(await prodeFarm.getBalance()).to.be.equal(TWENTY_FIVE_MATIC);
+          });
       
       });
   

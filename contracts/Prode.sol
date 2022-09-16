@@ -6,8 +6,8 @@ import "@openzeppelin/contracts/security/ReentrancyGuard.sol"; //truffle, hardha
 contract Prode is ReentrancyGuard {
     //List of users
     uint countUsers;
-    uint constant entrance = 0.10 ether;
-    uint constant fee = 0.05 ether;
+    uint constant entrance = 25 ether;
+    uint constant fee = 5 ether;
 
     //
     struct User {
@@ -44,7 +44,7 @@ contract Prode is ReentrancyGuard {
     function deposit() public payable {
         require(msg.value >= entrance, "To enter the minimum is 25"); 
         require(mapUser[msg.sender].enter == false, "You have been enrolled");       
-        mapUser[msg.sender].enter = true;
+        mapUser[msg.sender].enter = true;        
         transfer(owner, fee);
         transfer(governance, fee);
         countUsers++;
