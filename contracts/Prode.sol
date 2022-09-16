@@ -22,7 +22,7 @@ contract Prode is ReentrancyGuard {
         _;
     }
 
-    constructor(address payable _governance) {
+    constructor(address _governance) {
         owner = payable(msg.sender);
         governance = payable(_governance);
     }
