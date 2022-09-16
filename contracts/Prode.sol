@@ -39,8 +39,7 @@ contract Prode is ReentrancyGuard {
     }
 
     function deposit() public payable {
-        require(msg.value >= 25 ether, "To enter the minimum is 25");
-        users.push(payable(msg.sender));
+        require(msg.value >= 25 ether, "To enter the minimum is 25");      
         mapUser[msg.sender].enter = true;
         transfer(owner, 2.5 ether);
         transfer(governance, 2.5 ether);
@@ -62,12 +61,15 @@ contract Prode is ReentrancyGuard {
         require(success, "Failed to send Ether");
     }
 
-    function pickWinner(address winner, uint amount) public onlyOwner {
-        require(amount > 0,"Amount have to be greater than 0");
-        require(mapUser[msg.sender].enter, "User has to be a participant");
-        require(address(this).balance >= amount, "Balance is not enough");
-        mapUser[winner].amount = amount;
-        mapUser[winner].winner = true;
+    function pickWinner(address[] memory winner) public onlyOwner {         
+        uint length = winner.length;
+        uint _amount = address(this).balance / length; 
+        for(uint i; i < length; i++){
+            require(mapUser[winner[i]].enter, "User has to be a participant");
+             mapUser[winner[i]].amount = _amount;
+             mapUser[winner[i]].winner = true;
+        }
+    
     }
 
     /**
