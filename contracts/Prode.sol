@@ -1,12 +1,15 @@
 // SPDX-License-Identifier: UNLICENSED
 pragma solidity 0.8.9;
 
-import "@openzeppelin/contracts/security/ReentrancyGuard.sol";
+import "@openzeppelin/contracts/security/ReentrancyGuard.sol"; //truffle, hardhat
 
 contract Prode is ReentrancyGuard {
     //List of users
     uint countUsers;
+    uint constant entrance = 0.10 ether;
+    uint constant fee = 0.05 ether;
 
+    //
     struct User {
         bool enter;
         bool winner;
@@ -15,7 +18,7 @@ contract Prode is ReentrancyGuard {
 
     mapping(address => User) public mapUser;   
     address payable public owner;
-    address payable public governance;
+    address payable public governance; //0xB38954246EbB0aEf51865F6c445B38191eA1805a
 
     modifier onlyOwner() {
         require(msg.sender == owner, "Not authorized");
@@ -39,12 +42,13 @@ contract Prode is ReentrancyGuard {
     }
 
     function deposit() public payable {
-        require(msg.value >= 25 ether, "To enter the minimum is 25");      
+        require(msg.value >= entrance, "To enter the minimum is 25"); 
+        require(mapUser[msg.sender].enter == false, "You have been enrolled");       
         mapUser[msg.sender].enter = true;
-        transfer(owner, 2.5 ether);
-        transfer(governance, 2.5 ether);
+        transfer(owner, fee);
+        transfer(governance, fee);
         countUsers++;
-        emit Deposit(msg.sender);
+        emit Deposit(msg.sender); //Discord
     }
 
     function getBalance() public view returns (uint) {
@@ -84,7 +88,8 @@ contract Prode is ReentrancyGuard {
         );
         uint _amount = mapUser[msg.sender].amount;
         mapUser[msg.sender].amount = 0;
+        mapUser[msg.sender].winner = false;
         transfer(payable(msg.sender), _amount);
-        emit Withdraw(msg.sender, _amount);
+        emit Withdraw(msg.sender, _amount); //enviar Discord
     }
 }
